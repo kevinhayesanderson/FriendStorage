@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using FriendStorage.Model;
-using System.IO;
+﻿using FriendStorage.Model;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace FriendStorage.DataAccess
 {

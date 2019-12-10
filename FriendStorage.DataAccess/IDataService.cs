@@ -1,6 +1,6 @@
-﻿using System;
+﻿using FriendStorage.Model;
+using System;
 using System.Collections.Generic;
-using FriendStorage.Model;
 
 namespace FriendStorage.DataAccess
 {

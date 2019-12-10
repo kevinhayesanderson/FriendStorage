@@ -1,7 +1,7 @@
 ﻿using FriendStorage.DataAccess;
 using FriendStorage.Model;
-using System.Linq;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace FriendStorage.UI.ViewModel
 {
