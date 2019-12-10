@@ -72,7 +72,7 @@ namespace FriendStorage.DataAccess
                         Id = 1,
                         FirstName = "Thomas",
                         LastName = "Huber",
-                        Birthday = new DateTime(1980,10,28), 
+                        Birthday = new DateTime(1980,10,28),
                         IsDeveloper = true },
                     new Friend{Id=2,FirstName = "Julia",LastName="Huber",
                         Birthday = new DateTime(1982,10,10)},
