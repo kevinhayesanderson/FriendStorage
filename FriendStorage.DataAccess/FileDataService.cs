@@ -11,7 +11,7 @@ namespace FriendStorage.DataAccess
     {
         private const string StorageFile = "Friends.json";
 
-        public Friend GetFriendById(int friendId) => ReadFromFile().Single(f => f.Id == friendId);
+        public Friend GetFriendById(int friendId) => ReadFromFile().SingleOrDefault(f => f.Id == friendId);
 
         public void SaveFriend(Friend friend)
         {
@@ -92,6 +92,25 @@ namespace FriendStorage.DataAccess
             }
 
             return JsonConvert.DeserializeObject<List<Friend>>(File.ReadAllText(StorageFile));
+        }
+
+        private bool TryGetFriend(int friendId, out Friend friend)
+        {
+            if (GetFriendById(friendId) == null)
+            {
+                friend = null;
+                return false;
+            }
+            try
+            {
+                friend = GetFriendById(friendId);
+                return true;
+            }
+            catch(ArgumentNullException)
+            {
+                friend = null;
+                return false;
+            }
         }
     }
 }
