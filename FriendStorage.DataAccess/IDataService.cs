@@ -6,7 +6,7 @@ namespace FriendStorage.DataAccess
 {
     public interface IDataService : IDisposable
     {
-        Friend GetFriendById(int friendId);
+        bool TryGetFriend(int friendId, out Friend friend);
 
         void SaveFriend(Friend friend);
 

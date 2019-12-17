@@ -9,10 +9,12 @@ namespace FriendStorage.UI.Dialogs
             return new YesNoDialog(title, message)
             {
                 WindowStartupLocation = WindowStartupLocation.CenterOwner,
-                Owner = App.Current.MainWindow
-            }.ShowDialog().GetValueOrDefault()
-              ? MessageDialogResult.Yes
-              : MessageDialogResult.No;
+                Owner = System.Windows.Application.Current.MainWindow
+            }
+            .ShowDialog()
+            .GetValueOrDefault()
+                ? MessageDialogResult.Yes
+                : MessageDialogResult.No;
         }
     }
 }

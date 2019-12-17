@@ -11,11 +11,12 @@ namespace FriendStorage.UI.ViewModel
     public class MainViewModel : ViewModelBase
     {
         private IFriendEditViewModel _selectedFriendEditViewModel;
-        private Func<IFriendEditViewModel> _friendEditVmCreator;
+        private readonly Func<IFriendEditViewModel> _friendEditVmCreator;
 
-        public MainViewModel(INavigationViewModel navigationViewModel,
-          Func<IFriendEditViewModel> friendEditVmCreator,
-          IEventAggregator eventAggregator)
+        public MainViewModel(
+            INavigationViewModel navigationViewModel,
+            Func<IFriendEditViewModel> friendEditVmCreator,
+            IEventAggregator eventAggregator)
         {
             NavigationViewModel = navigationViewModel;
             FriendEditViewModels = new ObservableCollection<IFriendEditViewModel>();
@@ -26,22 +27,11 @@ namespace FriendStorage.UI.ViewModel
             AddFriendCommand = new DelegateCommand(OnAddFriendExecute);
         }
 
-        private void OnFriendDeleted(int friendId)
-        {
-            var friendEditVm = FriendEditViewModels.Single(vm => vm.Friend.Id == friendId);
-            FriendEditViewModels.Remove(friendEditVm);
-        }
+        private void OnFriendDeleted(int friendId) => FriendEditViewModels.ToList().RemoveAll(x => x.Friend.Id == friendId);
 
-        private void OnCloseFriendTabExecute(object obj)
-        {
-            var friendEditVm = (IFriendEditViewModel)obj;
-            FriendEditViewModels.Remove(friendEditVm);
-        }
+        private void OnCloseFriendTabExecute(object obj) => FriendEditViewModels.Remove(obj as IFriendEditViewModel);
 
-        private void OnAddFriendExecute(object obj)
-        {
-            SelectedFriendEditViewModel = CreateAndLoadFriendEditViewModel(null);
-        }
+        private void OnAddFriendExecute(object obj) => SelectedFriendEditViewModel = CreateAndLoadFriendEditViewModel(null);
 
         private IFriendEditViewModel CreateAndLoadFriendEditViewModel(int? friendId)
         {
@@ -83,9 +73,6 @@ namespace FriendStorage.UI.ViewModel
             }
         }
 
-        public void Load()
-        {
-            NavigationViewModel.Load();
-        }
+        public void Load() => NavigationViewModel.Load();
     }
 }

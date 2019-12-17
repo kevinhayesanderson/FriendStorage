@@ -17,7 +17,8 @@ namespace FriendStorage.UI.DataProvider
         {
             using (var dataService = _dataServiceCreator())
             {
-                return dataService.GetFriendById(id);
+                dataService.TryGetFriend(id, out Friend friend);
+                return friend;
             }
         }
 

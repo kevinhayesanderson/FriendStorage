@@ -78,6 +78,8 @@
     <Compile Include="Events\OpenFriendEditViewEvent.cs" />
     <Compile Include="Startup\BootStrapper.cs" />
     <Compile Include="ViewModel\FriendEditViewModel.cs" />
+    <Compile Include="ViewModel\IFriendEditViewModel.cs" />
+    <Compile Include="ViewModel\INavigationViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\NavigationItemViewModel.cs" />
     <Compile Include="ViewModel\NavigationViewModel.cs" />

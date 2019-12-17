@@ -5,7 +5,7 @@ using System.Windows;
 
 namespace FriendStorage.UI
 {
-    public partial class App : Application
+    public partial class Application : System.Windows.Application
     {
         protected override void OnStartup(StartupEventArgs e)
         {

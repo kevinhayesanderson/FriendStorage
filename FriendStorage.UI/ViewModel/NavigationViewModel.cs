@@ -7,18 +7,14 @@ using System.Linq;
 
 namespace FriendStorage.UI.ViewModel
 {
-    public interface INavigationViewModel
+    public class NavigationViewModel : ViewModelBase, INavigationViewModel
     {
-        void Load();
-    }
-    public class NavigationViewModel : ViewModelBase,
-      INavigationViewModel
-    {
-        private INavigationDataProvider _dataProvider;
-        private IEventAggregator _eventAggregator;
+        private readonly INavigationDataProvider _dataProvider;
+        private readonly IEventAggregator _eventAggregator;
 
-        public NavigationViewModel(INavigationDataProvider dataProvider,
-          IEventAggregator eventAggregator)
+        public NavigationViewModel(
+            INavigationDataProvider dataProvider,
+            IEventAggregator eventAggregator)
         {
             Friends = new ObservableCollection<NavigationItemViewModel>();
             _dataProvider = dataProvider;
@@ -27,11 +23,7 @@ namespace FriendStorage.UI.ViewModel
             _eventAggregator.GetEvent<FriendDeletedEvent>().Subscribe(OnFriendDeleted);
         }
 
-        private void OnFriendDeleted(int friendId)
-        {
-            var navigationItem = Friends.Single(n => n.Id == friendId);
-            Friends.Remove(navigationItem);
-        }
+        private void OnFriendDeleted(int friendId) => Friends.ToList().RemoveAll(x => x.Id == friendId);
 
         private void OnFriendSaved(Friend friend)
         {
@@ -43,9 +35,10 @@ namespace FriendStorage.UI.ViewModel
             }
             else
             {
-                navigationItem = new NavigationItemViewModel(friend.Id,
-                  displayMember,
-                  _eventAggregator);
+                navigationItem = new NavigationItemViewModel(
+                    friend.Id,
+                    displayMember,
+                    _eventAggregator);
                 Friends.Add(navigationItem);
             }
         }
@@ -55,8 +48,11 @@ namespace FriendStorage.UI.ViewModel
             Friends.Clear();
             foreach (var friend in _dataProvider.GetAllFriends())
             {
-                Friends.Add(new NavigationItemViewModel(
-                  friend.Id, friend.DisplayMember, _eventAggregator));
+                Friends.Add(
+                    new NavigationItemViewModel(
+                        friend.Id,  
+                        friend.DisplayMember, 
+                        _eventAggregator));
             }
         }
 

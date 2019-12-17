@@ -9,21 +9,17 @@ using System.Windows.Input;
 
 namespace FriendStorage.UI.ViewModel
 {
-    public interface IFriendEditViewModel
-    {
-        void Load(int? friendId);
-        FriendWrapper Friend { get; }
-    }
     public class FriendEditViewModel : ViewModelBase, IFriendEditViewModel
     {
-        private IFriendDataProvider _dataProvider;
+        private readonly IFriendDataProvider _dataProvider;
         private FriendWrapper _friend;
-        private IEventAggregator _eventAggregator;
-        private IMessageDialogService _messageDialogService;
+        private readonly IEventAggregator _eventAggregator;
+        private readonly IMessageDialogService _messageDialogService;
 
-        public FriendEditViewModel(IFriendDataProvider dataProvider,
-          IEventAggregator eventAggregator,
-          IMessageDialogService messageDialogService)
+        public FriendEditViewModel(
+            IFriendDataProvider dataProvider,
+            IEventAggregator eventAggregator,
+            IMessageDialogService messageDialogService)
         {
             _dataProvider = dataProvider;
             _eventAggregator = eventAggregator;
@@ -80,15 +76,13 @@ namespace FriendStorage.UI.ViewModel
             _eventAggregator.GetEvent<FriendSavedEvent>().Publish(Friend.Model);
         }
 
-        private bool OnSaveCanExecute(object arg)
-        {
-            return Friend != null && Friend.IsChanged;
-        }
+        private bool OnSaveCanExecute(object arg) => Friend != null && Friend.IsChanged;
 
         private void OnDeleteExecute(object obj)
         {
-            var result = _messageDialogService.ShowYesNoDialog("Delete Friend",
-              $"Do you really want to delete the friend '{Friend.FirstName} {Friend.LastName}'");
+            var result = _messageDialogService.ShowYesNoDialog(
+                "Delete Friend",
+                $"Do you really want to delete the friend '{Friend.FirstName} {Friend.LastName}'");
             if (result == MessageDialogResult.Yes)
             {
                 _dataProvider.DeleteFriend(Friend.Id);
@@ -96,9 +90,6 @@ namespace FriendStorage.UI.ViewModel
             }
         }
 
-        private bool OnDeleteCanExecute(object arg)
-        {
-            return Friend != null && Friend.Id > 0;
-        }
+        private bool OnDeleteCanExecute(object arg) => Friend != null && Friend.Id > 0;
     }
 }

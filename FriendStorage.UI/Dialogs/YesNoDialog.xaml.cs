@@ -11,15 +11,9 @@ namespace FriendStorage.UI.Dialogs
             textBlock.Text = message;
         }
 
-        private void ButtonYes_Click(object sender, RoutedEventArgs e)
-        {
-            DialogResult = true;
-        }
+        private void ButtonYes_Click(object sender, RoutedEventArgs e) => DialogResult = true;
 
-        private void ButtonNo_Click(object sender, RoutedEventArgs e)
-        {
-            DialogResult = false;
-        }
+        private void ButtonNo_Click(object sender, RoutedEventArgs e) => DialogResult = false;
 
     }
 }

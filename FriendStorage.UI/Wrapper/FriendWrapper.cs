@@ -7,15 +7,14 @@ namespace FriendStorage.UI.Wrapper
 {
     public class FriendWrapper : ViewModelBase
     {
-        private Friend _friend;
         private bool _isChanged;
 
         public FriendWrapper(Friend friend)
         {
-            _friend = friend;
+            Model = friend;
         }
 
-        public Friend Model { get { return _friend; } }
+        public Friend Model { get; }
 
         public bool IsChanged
         {
@@ -34,45 +33,45 @@ namespace FriendStorage.UI.Wrapper
 
         public int Id
         {
-            get { return _friend.Id; }
+            get { return Model.Id; }
         }
 
         public string FirstName
         {
-            get { return _friend.FirstName; }
+            get { return Model.FirstName; }
             set
             {
-                _friend.FirstName = value;
+                Model.FirstName = value;
                 OnPropertyChanged();
             }
         }
 
         public string LastName
         {
-            get { return _friend.LastName; }
+            get { return Model.LastName; }
             set
             {
-                _friend.LastName = value;
+                Model.LastName = value;
                 OnPropertyChanged();
             }
         }
 
         public DateTime? Birthday
         {
-            get { return _friend.Birthday; }
+            get { return Model.Birthday; }
             set
             {
-                _friend.Birthday = value;
+                Model.Birthday = value;
                 OnPropertyChanged();
             }
         }
 
         public bool IsDeveloper
         {
-            get { return _friend.IsDeveloper; }
+            get { return Model.IsDeveloper; }
             set
             {
-                _friend.IsDeveloper = value;
+                Model.IsDeveloper = value;
                 OnPropertyChanged();
             }
         }

@@ -15,8 +15,26 @@ namespace FriendStorage.DataAccess
         private bool disposed = false;
         readonly SafeHandle handle = new SafeFileHandle(IntPtr.Zero, true);
 
-        public Friend GetFriendById(int friendId) => ReadFromFile().Single(f => f.Id == friendId);
+        public bool TryGetFriend(int friendId, out Friend friend)
+        {
+            if (GetFriendById(friendId) == null)
+            {
+                friend = null;
+                return false;
+            }
+            try
+            {
+                friend = GetFriendById(friendId);
+                return true;
+            }
+            catch (ArgumentNullException)
+            {
+                friend = null;
+                return false;
+            }
+        }
 
+        public Friend GetFriendById(int friendId) => ReadFromFile().SingleOrDefault(f => f.Id == friendId);
 
         public void SaveFriend(Friend friend)
         {
@@ -57,20 +75,18 @@ namespace FriendStorage.DataAccess
             SaveToFile(friends);
         }
 
-        public IEnumerable<LookupItem> GetAllFriends() => ReadFromFile()
-              .Select(f => new LookupItem
-              {
-                  Id = f.Id,
-                  DisplayMember = $"{f.FirstName} {f.LastName}"
-              });
-
+        public IEnumerable<LookupItem> GetAllFriends() => 
+            ReadFromFile().Select(f => new LookupItem
+            {
+                Id = f.Id,
+                DisplayMember = $"{f.FirstName} {f.LastName}"
+            });
 
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-
 
         protected virtual void Dispose(bool disposing)
         {
@@ -80,7 +96,6 @@ namespace FriendStorage.DataAccess
             if (disposing)
             {
                 handle.Dispose();
-                //Dispose();
             }
 
             disposed = true;
