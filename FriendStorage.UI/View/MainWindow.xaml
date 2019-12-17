@@ -6,72 +6,112 @@
         MinHeight="650" MinWidth="900" Height="650" Width="920"
         WindowStartupLocation="CenterScreen"
         Background="Black" Icon="..\FriendStorageIcon.png">
-  <Grid>
-    <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="200"/>
-      <ColumnDefinition Width="Auto"/>
-      <ColumnDefinition/>
-    </Grid.ColumnDefinitions>
-    <Grid.RowDefinitions>
-      <RowDefinition Height="Auto"/>
-      <RowDefinition Height="Auto"/>
-      <RowDefinition Height="*"/>
-      <RowDefinition Height="Auto"/>
-    </Grid.RowDefinitions>
+    <Window.Resources>
 
-    <!--Header-->
-    <TextBlock Margin="10" Foreground="White" FontSize="40" Grid.ColumnSpan="3">
+        <Style x:Key="ButtonStyle1" TargetType="{x:Type Button}">
+            <Setter Property="Width" Value="20"/>
+            <Setter Property="Height" Value="20"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="ToolTip" Value="Add"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid Background="Transparent">
+                            <Viewbox>
+                                <Path x:Name="path" Width="14" Height="14" Stroke="Green" StrokeThickness="3">
+                                    <Path.Data>
+                                        <GeometryGroup>
+                                            <LineGeometry StartPoint="0,7" EndPoint="14,7"/>
+                                            <LineGeometry StartPoint="7,0" EndPoint="7,14"/>
+                                        </GeometryGroup>
+                                    </Path.Data>
+                                </Path>
+                            </Viewbox>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="path" Property="Stroke" Value="#CCCCCC"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="path" Property="Stroke" Value="White"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="path" Property="Stroke" Value="Gray"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!--Header-->
+        <TextBlock Margin="10" Foreground="White" FontSize="40" Grid.ColumnSpan="3">
                 <Bold Foreground="Red">Friend</Bold>Storage
-    </TextBlock>
+        </TextBlock>
 
-    <!--Buttons-->
-    <StackPanel Background="#333333" Grid.Row="1" Orientation="Horizontal">
-      <Button Command="{Binding AddFriendCommand}" 
-            ToolTip="Add friend" Style="{StaticResource AddButtonStyle}" />
-    </StackPanel>
+        <!--Buttons-->
+        <StackPanel Background="#333333" Grid.Row="1" Orientation="Horizontal">
+            <Button Command="{Binding AddFriendCommand}" 
+            ToolTip="Add friend" Style="{DynamicResource ButtonStyle1}" />
+        </StackPanel>
 
-    <!--Navigation-->
-    <view:NavigationView DataContext="{Binding NavigationViewModel}" Grid.Row="2"/>
+        <!--Navigation-->
+        <view:NavigationView DataContext="{Binding NavigationViewModel}" Grid.Row="2"/>
 
-    <GridSplitter Grid.Row="1" Grid.RowSpan="2" Grid.Column="1" Width="5" Background="DarkRed" HorizontalAlignment="Center"/>
+        <GridSplitter Grid.Row="1" Grid.RowSpan="2" Grid.Column="1" Width="5" Background="DarkRed" HorizontalAlignment="Center"/>
 
-    <!--Tabs-->
-    <TabControl ItemsSource="{Binding FriendEditViewModels}"
+        <!--Tabs-->
+        <TabControl ItemsSource="{Binding FriendEditViewModels}"
                 SelectedItem="{Binding SelectedFriendEditViewModel, Mode=TwoWay}" 
                 Grid.Row="1" Grid.RowSpan="2" Grid.Column="2" Background="Black">
-      <TabControl.ItemContainerStyle>
-        <Style TargetType="TabItem" BasedOn="{StaticResource {x:Type TabItem}}">
-          <Style.Triggers>
-            <Trigger Property="IsSelected" Value="True">
-              <Setter Property="FontWeight" Value="Bold"/>
-            </Trigger>
-          </Style.Triggers>
-        </Style>
-      </TabControl.ItemContainerStyle>
-      <TabControl.ItemTemplate>
-        <DataTemplate>
-          <StackPanel Orientation="Horizontal">
-            <TextBlock Text="{Binding Friend.FirstName,ValidatesOnNotifyDataErrors=False}"/>
-            <TextBlock Text="{Binding Friend.LastName}" Margin="5 0 20 0"/>
-            <Button Content="X" Command="{Binding RelativeSource=
+            <TabControl.ItemContainerStyle>
+                <Style TargetType="TabItem" BasedOn="{StaticResource {x:Type TabItem}}">
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="FontWeight" Value="Bold"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </TabControl.ItemContainerStyle>
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Friend.FirstName,ValidatesOnNotifyDataErrors=False}"/>
+                        <TextBlock Text="{Binding Friend.LastName}" Margin="5 0 20 0"/>
+                        <Button Content="X" Command="{Binding RelativeSource=
                                   {RelativeSource FindAncestor,
                                   AncestorType={x:Type TabControl}},
                                   Path=DataContext.CloseFriendTabCommand}"
                                 CommandParameter="{Binding}"
                                 Width="20" Height="20" FontWeight="Bold" FontSize="12"
                                 Foreground="White" Padding="0">
-            </Button>
-          </StackPanel>
-        </DataTemplate>
-      </TabControl.ItemTemplate>
-      <TabControl.ContentTemplate>
-        <DataTemplate>
-          <view:FriendEditView/>
-        </DataTemplate>
-      </TabControl.ContentTemplate>
-    </TabControl>
+                        </Button>
+                    </StackPanel>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+            <TabControl.ContentTemplate>
+                <DataTemplate>
+                    <view:FriendEditView/>
+                </DataTemplate>
+            </TabControl.ContentTemplate>
+        </TabControl>
 
-    <!--Footer-->
-    <TextBlock Text="Created by Thomas Claudius Huber, 2016" Margin="10" Grid.Row="3" Grid.ColumnSpan="3" Foreground="LightGray" />
-  </Grid>
+        <!--Footer-->
+        <TextBlock Text="Created by Kevin Hayes Anderson" Margin="10" Grid.Row="3" Grid.ColumnSpan="3" Foreground="LightGray" />
+    </Grid>
 </Window>

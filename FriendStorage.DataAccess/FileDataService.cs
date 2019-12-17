@@ -16,7 +16,7 @@ namespace FriendStorage.DataAccess
         readonly SafeHandle handle = new SafeFileHandle(IntPtr.Zero, true);
 
         public Friend GetFriendById(int friendId) => ReadFromFile().Single(f => f.Id == friendId);
-        
+
 
         public void SaveFriend(Friend friend)
         {
@@ -71,7 +71,7 @@ namespace FriendStorage.DataAccess
             GC.SuppressFinalize(this);
         }
 
-        
+
         protected virtual void Dispose(bool disposing)
         {
             if (disposed)
@@ -110,9 +110,9 @@ namespace FriendStorage.DataAccess
                         Birthday = new DateTime(1981,01,10), IsDeveloper = true},
                     new Friend{Id=6,FirstName="Urs",LastName="Meier",
                         Birthday = new DateTime(1970,03,5), IsDeveloper = true},
-                     new Friend{Id=7,FirstName="Chrissi",LastName="Heuberger",
+                    new Friend{Id=7,FirstName="Chrissi",LastName="Heuberger",
                         Birthday = new DateTime(1987,07,16)},
-                     new Friend{Id=8,FirstName="Erkan",LastName="Egin",
+                    new Friend{Id=8,FirstName="Erkan",LastName="Egin",
                         Birthday = new DateTime(1983,05,23)},
                 };
             }
