@@ -11,7 +11,11 @@ namespace FriendStorage.DataAccess
     {
         private const string StorageFile = "Friends.json";
 
-        public Friend GetFriendById(int friendId) => ReadFromFile().SingleOrDefault(f => f.Id == friendId);
+        public Friend GetFriendById(int friendId)
+        {
+            var friends = ReadFromFile();
+            return friends.Single(f => f.Id == friendId);
+        }
 
         public void SaveFriend(Friend friend)
         {
@@ -52,7 +56,15 @@ namespace FriendStorage.DataAccess
             SaveToFile(friends);
         }
 
-        public IEnumerable<Friend> GetAllFriends() => ReadFromFile();
+        public IEnumerable<LookupItem> GetAllFriends()
+        {
+            return ReadFromFile()
+              .Select(f => new LookupItem
+              {
+                  Id = f.Id,
+                  DisplayMember = $"{f.FirstName} {f.LastName}"
+              });
+        }
 
         public void Dispose()
         {
@@ -60,7 +72,11 @@ namespace FriendStorage.DataAccess
             // to show how to use an IDisposable in the client with a Func<T>. =>  Look for example at the FriendDataProvider-class
         }
 
-        private void SaveToFile(List<Friend> friendList) => File.WriteAllText(StorageFile, JsonConvert.SerializeObject(friendList, Formatting.Indented));
+        private void SaveToFile(List<Friend> friendList)
+        {
+            string json = JsonConvert.SerializeObject(friendList, Formatting.Indented);
+            File.WriteAllText(StorageFile, json);
+        }
 
         private List<Friend> ReadFromFile()
         {
@@ -68,12 +84,8 @@ namespace FriendStorage.DataAccess
             {
                 return new List<Friend>
                 {
-                    new Friend {
-                        Id = 1,
-                        FirstName = "Thomas",
-                        LastName = "Huber",
-                        Birthday = new DateTime(1980,10,28),
-                        IsDeveloper = true },
+                    new Friend{Id=1,FirstName = "Thomas",LastName="Huber",
+                        Birthday = new DateTime(1980,10,28), IsDeveloper = true},
                     new Friend{Id=2,FirstName = "Julia",LastName="Huber",
                         Birthday = new DateTime(1982,10,10)},
                     new Friend{Id=3,FirstName="Anna",LastName="Huber",
@@ -91,26 +103,8 @@ namespace FriendStorage.DataAccess
                 };
             }
 
-            return JsonConvert.DeserializeObject<List<Friend>>(File.ReadAllText(StorageFile));
-        }
-
-        private bool TryGetFriend(int friendId, out Friend friend)
-        {
-            if (GetFriendById(friendId) == null)
-            {
-                friend = null;
-                return false;
-            }
-            try
-            {
-                friend = GetFriendById(friendId);
-                return true;
-            }
-            catch(ArgumentNullException)
-            {
-                friend = null;
-                return false;
-            }
+            string json = File.ReadAllText(StorageFile);
+            return JsonConvert.DeserializeObject<List<Friend>>(json);
         }
     }
 }

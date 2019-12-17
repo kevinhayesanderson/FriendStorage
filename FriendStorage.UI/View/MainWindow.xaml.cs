@@ -5,10 +5,13 @@ namespace FriendStorage.UI.View
 {
     public partial class MainWindow : Window
     {
+        private MainViewModel _viewModel;
+
         public MainWindow(MainViewModel viewModel)
         {
             InitializeComponent();
-            Loaded += MainWindow_Loaded;
+            this.Loaded += MainWindow_Loaded;
+
             _viewModel = viewModel;
             DataContext = _viewModel;
         }
@@ -17,7 +20,5 @@ namespace FriendStorage.UI.View
         {
             _viewModel.Load();
         }
-
-        private readonly MainViewModel _viewModel;
     }
 }
