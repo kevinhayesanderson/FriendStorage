@@ -12,12 +12,7 @@ namespace FriendStorage.UI.Command
           Action<object> execute,
           Func<object, bool> canExecute = null)
         {
-            if (execute == null)
-            {
-                throw new ArgumentNullException(nameof(execute));
-            }
-
-            _execute = execute;
+            _execute = execute ?? throw new ArgumentNullException(nameof(execute));
             _canExecute = canExecute;
         }
 

@@ -1,21 +1,22 @@
 ﻿using FriendStorage.Model;
+using Microsoft.Win32.SafeHandles;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace FriendStorage.DataAccess
 {
-    public class FileDataService : IDataService
+    public class FileDataService : IDataService, IDisposable
     {
         private const string StorageFile = "Friends.json";
+        private bool disposed = false;
+        readonly SafeHandle handle = new SafeFileHandle(IntPtr.Zero, true);
 
-        public Friend GetFriendById(int friendId)
-        {
-            var friends = ReadFromFile();
-            return friends.Single(f => f.Id == friendId);
-        }
+        public Friend GetFriendById(int friendId) => ReadFromFile().Single(f => f.Id == friendId);
+        
 
         public void SaveFriend(Friend friend)
         {
@@ -56,20 +57,33 @@ namespace FriendStorage.DataAccess
             SaveToFile(friends);
         }
 
-        public IEnumerable<LookupItem> GetAllFriends()
-        {
-            return ReadFromFile()
+        public IEnumerable<LookupItem> GetAllFriends() => ReadFromFile()
               .Select(f => new LookupItem
               {
                   Id = f.Id,
                   DisplayMember = $"{f.FirstName} {f.LastName}"
               });
-        }
+
 
         public void Dispose()
         {
-            // Usually Service-Proxies are disposable. This method is added as demo-purpose
-            // to show how to use an IDisposable in the client with a Func<T>. =>  Look for example at the FriendDataProvider-class
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposed)
+                return;
+
+            if (disposing)
+            {
+                handle.Dispose();
+                //Dispose();
+            }
+
+            disposed = true;
         }
 
         private void SaveToFile(List<Friend> friendList)
