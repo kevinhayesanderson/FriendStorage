@@ -50,8 +50,8 @@ namespace FriendStorage.UI.ViewModel
             {
                 Friends.Add(
                     new NavigationItemViewModel(
-                        friend.Id,  
-                        friend.DisplayMember, 
+                        friend.Id,
+                        friend.DisplayMember,
                         _eventAggregator));
             }
         }

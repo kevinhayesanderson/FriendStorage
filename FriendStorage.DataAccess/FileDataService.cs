@@ -13,7 +13,7 @@ namespace FriendStorage.DataAccess
     {
         private const string StorageFile = "Friends.json";
         private bool disposed = false;
-        readonly SafeHandle handle = new SafeFileHandle(IntPtr.Zero, true);
+        private readonly SafeHandle handle = new SafeFileHandle(IntPtr.Zero, true);
 
         public bool TryGetFriend(int friendId, out Friend friend)
         {
@@ -75,7 +75,7 @@ namespace FriendStorage.DataAccess
             SaveToFile(friends);
         }
 
-        public IEnumerable<LookupItem> GetAllFriends() => 
+        public IEnumerable<LookupItem> GetAllFriends() =>
             ReadFromFile().Select(f => new LookupItem
             {
                 Id = f.Id,
@@ -91,7 +91,9 @@ namespace FriendStorage.DataAccess
         protected virtual void Dispose(bool disposing)
         {
             if (disposed)
+            {
                 return;
+            }
 
             if (disposing)
             {
