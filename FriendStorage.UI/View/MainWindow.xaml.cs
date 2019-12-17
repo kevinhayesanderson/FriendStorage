@@ -5,12 +5,12 @@ namespace FriendStorage.UI.View
 {
     public partial class MainWindow : Window
     {
-        private MainViewModel _viewModel;
+        private readonly MainViewModel _viewModel;
 
         public MainWindow(MainViewModel viewModel)
         {
             InitializeComponent();
-            this.Loaded += MainWindow_Loaded;
+            Loaded += MainWindow_Loaded;
 
             _viewModel = viewModel;
             DataContext = _viewModel;

@@ -7,12 +7,10 @@ namespace FriendStorage.UI.DataProvider
 {
     class NavigationDataProvider : INavigationDataProvider
     {
-        private Func<IDataService> _dataServiceCreator;
+        private readonly Func<IDataService> _dataServiceCreator;
 
-        public NavigationDataProvider(Func<IDataService> dataServiceCreator)
-        {
-            _dataServiceCreator = dataServiceCreator;
-        }
+        public NavigationDataProvider(Func<IDataService> dataServiceCreator) => _dataServiceCreator = dataServiceCreator;
+
         public IEnumerable<LookupItem> GetAllFriends()
         {
             using (var dataService = _dataServiceCreator())

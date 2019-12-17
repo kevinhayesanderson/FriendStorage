@@ -9,10 +9,7 @@ namespace FriendStorage.UI.Wrapper
     {
         private bool _isChanged;
 
-        public FriendWrapper(Friend friend)
-        {
-            Model = friend;
-        }
+        public FriendWrapper(Friend friend) => Model = friend;
 
         public Friend Model { get; }
 
@@ -26,15 +23,9 @@ namespace FriendStorage.UI.Wrapper
             }
         }
 
-        public void AcceptChanges()
-        {
-            IsChanged = false;
-        }
+        public void AcceptChanges() => IsChanged = false;
 
-        public int Id
-        {
-            get { return Model.Id; }
-        }
+        public int Id => Model.Id;
 
         public string FirstName
         {
