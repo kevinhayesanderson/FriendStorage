@@ -11,6 +11,7 @@ namespace FriendStorage.UI.ViewModel
     {
         private readonly INavigationDataProvider _dataProvider;
         private readonly IEventAggregator _eventAggregator;
+        public ObservableCollection<NavigationItemViewModel> Friends { get; private set; }
 
         public NavigationViewModel(
             INavigationDataProvider dataProvider,
@@ -56,6 +57,6 @@ namespace FriendStorage.UI.ViewModel
             }
         }
 
-        public ObservableCollection<NavigationItemViewModel> Friends { get; private set; }
+        
     }
 }
