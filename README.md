@@ -1,1 +1,2 @@
 # FriendStorage
+learning MVVM pattern
